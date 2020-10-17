@@ -18,18 +18,31 @@ class StundentController {
         $grades = array();
 
         foreach( $boards as $board){
-            $grades[] = $board->grade ;
+            $grades[] = $board->grade;
         }
 
- 
         Board::set_grades( $grades );
 
-       $csm = CSM::calculate_grades();
-       $csmb = CSMB::calculate_grades();
+        $student =$this->update( $id, CSM::calculate_grades(), CSMB::calculate_grades() );
 
-        return $csmb;
+
+        return $student;
     }
+    
+    private function update( $student_id, $csm, $csmb ) {
+        $student = Student::findOrFail( $student_id );
 
+        try {
+            $student->update( [
+                'csm'  => $csm,
+                'csmb' => $csmb
+            ] );
+        } catch ( \PDOException $e ) {
+            return \json_encode( ['error' => $e] );
+        }
+
+        return $student;
+    }
 
     public static function csm( $grades ) {
       

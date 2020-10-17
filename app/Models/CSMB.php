@@ -6,9 +6,7 @@ use App\Interfaces\iBoard;
 
 class CSMB extends Board implements iBoard{
 
-
     public static function calculate_grades( ) {
-        // return self::remove_min( self::$grades );
         return self::check_grades( self::remove_min( self::$grades ) );
     }
 
