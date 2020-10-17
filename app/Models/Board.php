@@ -8,11 +8,6 @@ class Board Extends Model {
 
     public static $grades;
 
-    // public function __construct( Student $student_id )
-    // {
-    //     $this->student_id = $student_id;
-    // }
-
     public function student() {
         return $this->belongsTo( 'App\Models\Student' );
     }
@@ -24,5 +19,5 @@ class Board Extends Model {
     public function get_grades() {
         return self::$grades;
     }
-    
+
 }

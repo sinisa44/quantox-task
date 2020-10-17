@@ -11,22 +11,18 @@ use App\Models\Board;
 class StundentController {
     private $grades;
 
-    
     public function show( $id ) {
         $boards = Student::findOrFail( $id )->boards;
 
         $grades = array();
 
-        foreach( $boards as $board){
-            $grades[] = $board->grade;
+        foreach( $boards as $board ) {
+            $this->grades[] = $board->grade;
         }
 
-        Board::set_grades( $grades );
+        Board::set_grades( $this->grades );
 
-        $student =$this->update( $id, CSM::calculate_grades(), CSMB::calculate_grades() );
-
-
-        return $student;
+       return $this->update( $id, CSM::calculate_grades(), CSMB::calculate_grades() );
     }
     
     private function update( $student_id, $csm, $csmb ) {
@@ -41,18 +37,25 @@ class StundentController {
             return \json_encode( ['error' => $e] );
         }
 
-        return $student;
+        return $this->student_results( $student, $csm, $csmb );
     }
 
-    public static function csm( $grades ) {
-      
+    private function student_results( $student, $csm, $csmb ) {
+        $student = Student::with( 'boards' )
+                          ->findOrFail( $student->id );
+
+        $result = [
+            'student' => $student,
+            'average' => $this->get_average()
+        ];
+    
+        return \json_encode( $result );
     }
 
-    public function csmb( $grades ) {
-
+    private function get_average() {
+        return array_sum( $this->grades ) / count( $this->grades );
     }
 
-    private function get_grades( $grade  ) {
-        return $grade;
-    }
+
+    
 }
