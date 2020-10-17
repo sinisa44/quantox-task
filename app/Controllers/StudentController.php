@@ -9,8 +9,18 @@ use App\Models\Board;
 
 
 class StundentController {
+    /**
+     * @param grades, $grades array
+     */
     private $grades;
 
+    /**
+     * Display student 
+     * 
+     * @param int, $id student_id
+     * 
+     * @return void
+     */
     public function show( $id ) {
         $boards = Student::findOrFail( $id )->boards;
 
@@ -24,7 +34,17 @@ class StundentController {
 
        return $this->update( $id, CSM::calculate_grades(), CSMB::calculate_grades() );
     }
-    
+
+
+    /**
+     * Update Students table
+     * 
+     * @param int, $student_id
+     * @param bool, $csm,
+     * @param bool, $csmb
+     * 
+     * @return void
+     */
     private function update( $student_id, $csm, $csmb ) {
         $student = Student::findOrFail( $student_id );
 
@@ -40,6 +60,16 @@ class StundentController {
         return $this->student_results( $student, $csm, $csmb );
     }
 
+
+    /**
+     * Display results for student
+     * 
+     * @param object $student,
+     * @param bool $csm,
+     * @param bool $csmb.
+     * 
+     * @return obj
+     */
     private function student_results( $student, $csm, $csmb ) {
         $student = Student::with( 'boards' )
                           ->findOrFail( $student->id );
@@ -52,6 +82,11 @@ class StundentController {
         return \json_encode( $result );
     }
 
+    /**
+     * Calculates average grade
+     * 
+     * @return int
+     */
     private function get_average() {
         return array_sum( $this->grades ) / count( $this->grades );
     }
