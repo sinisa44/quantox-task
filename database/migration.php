@@ -9,12 +9,13 @@ Capsule::schema()->create( 'students', function( $table ){
     $table->string( 'name', 255 )->nullable( false );
     $table->int( 'csm' )->nullable();
     $table->int( 'csmb' )->nullable();
+    $table->timestamps();
 });
 
 Capsule::schema()->create( 'boards', function( $table ) {
     $table->increments( 'id' );
     $table->integer( 'student_id' )->refreneces( 'id' )->on( 'students' );
     $table->integer( 'grade' );
-    $table->enum( 'type', ['CSM', 'CSMB'] )->nullable( false );
+    $table->timestamps();
 } );
 

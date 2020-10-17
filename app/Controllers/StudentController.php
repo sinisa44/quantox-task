@@ -24,8 +24,6 @@ class StundentController {
     public function show( $id ) {
         $boards = Student::findOrFail( $id )->boards;
 
-        $grades = array();
-
         foreach( $boards as $board ) {
             $this->grades[] = $board->grade;
         }
@@ -90,7 +88,4 @@ class StundentController {
     private function get_average() {
         return array_sum( $this->grades ) / count( $this->grades );
     }
-
-
-    
 }
