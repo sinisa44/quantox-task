@@ -7,6 +7,8 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 Capsule::schema()->create( 'students', function( $table ){
     $table->increments( 'id' );
     $table->string( 'name', 255 )->nullable( false );
+    $table->int( 'csm' )->nullable();
+    $table->int( 'csmb' )->nullable();
 });
 
 Capsule::schema()->create( 'boards', function( $table ) {
