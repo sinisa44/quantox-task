@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "psr-4": {
+           "App\\" : "app/"
+        },
+        "files" : [
+            "bootstrap/app.php"
+        ]
+    },
+    "require": {
+        "illuminate/database": "^8.10"
+    }
+}
